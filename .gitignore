@@ -1,0 +1,13 @@
+# npm
+node_modules
+
+# bower
+bower_components
+
+# testing
+coverage
+
+# IntelliJ project settings
+.idea
+*.iml
+
