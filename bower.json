@@ -1,0 +1,35 @@
+{
+  "name": "angular-socket-signalr",
+  "version": "0.0.1",
+  "authors": [
+    "Roy Lee <roylee0704@gmail.com>"
+  ],
+  "description": "AngularJS directive for signalr js client in socket.io style.",
+  "homepage": "",
+  "keywords": [
+    "angularjs",
+    "angular",
+    "signalr",
+    "socketio"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "demo",
+    "index.html",
+    "Gruntfile.js",
+    "package.json"
+  ],
+  "main": [
+    "angular-socket-signalr.js"
+  ],
+  "dependencies": {
+    "angular": "~1.2.x"
+  },
+  "devDependencies": {
+    "angular-mocks": "~1.x"
+  }
+}
