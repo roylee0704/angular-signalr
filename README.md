@@ -1,2 +1,2 @@
 # angular-socket-signalr
-Angular wrapper of signalr in socket.io style.
+Angular wrapper for signalr in socket.io style.
