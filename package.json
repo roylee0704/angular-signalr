@@ -1,0 +1,44 @@
+{
+  "name": "angular-socket-signalr",
+  "version": "0.0.1",
+  "description": "Angular wrapper for signalr in socket.io style",
+  "main": "angular-socket-signalr.js",
+  "scripts": {
+    "test": "grunt"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/roylee0704/angular-socket-signalr.git"
+  },
+  "keywords": [
+    "angularjs",
+    "angular",
+    "signalr",
+    "socketio",
+  ],
+  "author": "Roy Lee",
+  "license": "MIT",
+  "readmeFilename": "README.md",
+  "homepage": "",
+  "bugs": {
+    "url": "https://github.com/roylee0704/angular-socket-signalr/issues"
+  },
+  "dependencies": {
+    "angular": "~1.2.x"
+  },
+  "devDependencies": {
+    "grunt": "~0.4",
+    "grunt-contrib-compass": "^1.0.1",
+    "grunt-contrib-concat": "^0.5.0",
+    "grunt-contrib-jshint": "~0.10",
+    "grunt-contrib-uglify": "^0.7.0",
+    "grunt-karma": "~0.9",
+    "grunt-karma-coveralls": "~2.5",
+    "karma": "~0.12",
+    "karma-chrome-launcher": "~0.1",
+    "karma-coverage": "~0.2",
+    "karma-firefox-launcher": "~0.1",
+    "karma-jasmine": "~0.3",
+    "load-grunt-tasks": "~1.0"
+  }
+}
