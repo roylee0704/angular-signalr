@@ -1,0 +1,26 @@
+language: node_js
+node_js:
+  - '0.10'
+
+before_install:
+  - 'export DISPLAY=:99.0'
+  - 'sh -e /etc/init.d/xvfb start'
+
+before_script:
+  - 'npm install -g bower grunt-cli'
+  - 'npm install -g codeclimate-test-reporter'
+  - 'bower install'
+
+script:
+  - 'grunt jshint --verbose'
+  - 'grunt karma:unit --verbose'
+
+after_success:
+  - 'grunt coverage'
+
+after_script:
+  - codeclimate < coverage/**/lcov.info
+
+addons:
+  code_climate:
+    repo_token: e57bc3a717784d6f0006af79b29833a4c336de10ecc08bb352f66d379c7715db
