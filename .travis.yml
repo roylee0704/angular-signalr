@@ -9,7 +9,6 @@ before_install:
 before_script:
   - 'npm install -g bower grunt-cli'
   - 'npm install -g codeclimate-test-reporter'
-  - 'bower install'
 
 script:
   - 'grunt jshint --verbose'
