@@ -11,3 +11,8 @@ coverage
 .idea
 *.iml
 
+# others
+pids
+logs
+results
+dist
