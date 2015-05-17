@@ -3,9 +3,6 @@
   "version": "0.0.1",
   "description": "Angular wrapper for signalr in socket.io style",
   "main": "angular-socket-signalr.js",
-  "scripts": {
-    "test": "grunt"
-  },
   "repository": {
     "type": "git",
     "url": "git://github.com/roylee0704/angular-socket-signalr.git"
