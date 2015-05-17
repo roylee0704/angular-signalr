@@ -94,6 +94,10 @@ module.exports = function (grunt) {
   });
 
 
+  // generate coverage report and send it to coveralls
+  grunt.registerTask('coverage', ['karma:travis', 'coveralls']);
+
+
   //register before and after test tasks so we've don't have to change cli
   //options on the google's CI server
   grunt.registerTask('before-test', ['ddescribe-iit', 'jshint']);
