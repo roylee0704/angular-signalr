@@ -1,7 +1,28 @@
-describe('A suite', function() {
+describe('socketFactory', function() {
   'use strict';
 
-  it('contains spec with an expectation', function() {
-    expect(true).toBe(true);
+  beforeEach(module('roy.socket-signalr'));
+
+
+  var hub;
+
+
+  beforeEach(inject(function(hubFactory, $rootScope) {
+    hub = hubFactory();
+
+  }));
+
+
+  describe('#on', function() {
+
+    it('should apply asynchronously', function () {
+
+
+    });
   });
+
+
+
+
+
 });

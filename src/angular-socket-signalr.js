@@ -1,5 +1,15 @@
-function omg() {
-  'use strict';
+angular.module('roy.socket-signalr', []).
+  provider('hubFactory', function() {
+    'use strict';
 
-  console.log('hehe');
-}
+    this.$get = ['$rootScope', function($rootScope) {
+
+
+
+      return function hubFactory (options) {
+
+
+      };
+
+    }];
+  });
