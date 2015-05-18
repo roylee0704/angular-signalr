@@ -15,7 +15,8 @@ module.exports = function (config) {
       'src/**/*.js',
 
       // test
-      'test/*_spec.js'
+      'test/*_spec.js',
+      'test/mock/*.js'
     ],
 
     // enable / disable watching file and executing tests whenever any file changes
