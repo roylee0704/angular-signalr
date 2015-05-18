@@ -84,7 +84,7 @@ module.exports = function (grunt) {
 
     delta: {
       js: {
-        files: ['src/**/*.js'],
+        files: ['src/**/*.js', 'test/**/*.js'],
         //we don't need to jshint here, it slows down everything else
         tasks: ['karma:watch:run']
       }
