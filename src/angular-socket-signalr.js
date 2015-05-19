@@ -9,6 +9,9 @@ angular.module('roy.socket-signalr', []).
           connect: function(transObj) {
             socket.connection.start(transObj);
           },
+          stop: function() {
+            socket.connection.stop();
+          },
           on: function(eventName, callback) {
             socket.proxy.on(eventName, $timeout(function(){
               callback();
