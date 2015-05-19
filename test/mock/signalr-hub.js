@@ -13,7 +13,8 @@ function createMockHubObject () {
   var hub = {
     createHubProxy: function (hubName) {
       return new HubProxy(hubName);
-    }
+    },
+    start: function(transObj) {}
   };
 
   return hub;
