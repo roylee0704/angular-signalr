@@ -6,13 +6,16 @@ angular.module('roy.socket-signalr', []).
       return function hubFactory (socket) {
 
         return {
+          connect: function(transObj) {
+            socket.connection.start(transObj);
+          },
           on: function(eventName, callback) {
-            socket.on(eventName, $timeout(function(){
+            socket.proxy.on(eventName, $timeout(function(){
               callback();
             }, 0));
           },
           invoke: function(ev, data) {
-            socket.invoke.apply(socket, arguments);
+            socket.proxy.invoke.apply(socket, arguments);
           }
         };
 
