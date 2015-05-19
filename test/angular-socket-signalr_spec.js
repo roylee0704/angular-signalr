@@ -10,8 +10,9 @@ describe('socketFactory', function() {
       $timeout;
 
   beforeEach(inject(function(hubFactory, _$timeout_) {
-
-    mockedHub = window.$.hubConnection().createHubProxy('testHub');
+    mockedHub = {};
+    mockedHub.connection = window.$.hubConnection();
+    mockedHub.proxy = mockedHub.connection.createHubProxy('testHub');
     spy = jasmine.createSpy('mockedFn');
 
     hub = hubFactory( mockedHub );
@@ -27,7 +28,7 @@ describe('socketFactory', function() {
     it('should apply asynchronously', function () {
 
       hub.on('event', spy);
-      mockedHub.invoke('event');
+      mockedHub.proxy.invoke('event');
 
       expect(spy).not.toHaveBeenCalled();
 
@@ -38,11 +39,11 @@ describe('socketFactory', function() {
   });
 
 
-  describe('#emit', function() {
+  describe('#invoke', function() {
 
     beforeEach(function() {
 
-      spyOn(mockedHub, 'invoke');
+      spyOn(mockedHub.proxy, 'invoke');
 
     });
 
@@ -50,20 +51,43 @@ describe('socketFactory', function() {
 
       hub.invoke('event', {foo: 'bar'});
 
-      expect(mockedHub.invoke).toHaveBeenCalled();
+      expect(mockedHub.proxy.invoke).toHaveBeenCalled();
     });
 
     it('should allow multiple data arguments', function() {
 
       hub.invoke('event', 'x', 'y');
 
-      expect(mockedHub.invoke).toHaveBeenCalledWith('event', 'x', 'y');
+      expect(mockedHub.proxy.invoke).toHaveBeenCalledWith('event', 'x', 'y');
 
     });
 
   });
 
+  describe('# connect', function() {
 
+
+    it('should call the delegate hub\'s connect.start', function() {
+
+      spyOn(mockedHub.connection, 'start');
+      hub.connect();
+      expect(mockedHub.connection.start).toHaveBeenCalled();
+
+    });
+
+
+    it('should call the delegate hub\'s connect.start with transport option', function() {
+
+      spyOn(mockedHub.connection, 'start');
+      var transObj = {
+        transport: 'longPolling'
+      };
+      hub.connect(transObj);
+
+      expect(mockedHub.connection.start.calls.first().args[0]).toEqual(transObj);
+
+    });
+  });
 
 
 
