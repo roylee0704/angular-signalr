@@ -95,7 +95,7 @@ describe('socketFactory', function() {
     it('should call the delegate hub\'s connection.stop', function() {
 
       spyOn(mockedHub.connection, 'stop');
-      hub.stop();
+      hub.disconnect();
       expect(mockedHub.connection.stop).toHaveBeenCalled();
 
     });
