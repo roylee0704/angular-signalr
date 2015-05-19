@@ -14,7 +14,8 @@ function createMockHubObject () {
     createHubProxy: function (hubName) {
       return new HubProxy(hubName);
     },
-    start: function(transObj) {}
+    start: function(transObj) {},
+    stop: function() {}
   };
 
   return hub;
