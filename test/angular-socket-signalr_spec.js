@@ -3,13 +3,13 @@ describe('socketFactory', function() {
 
   beforeEach(module('roy.socket-signalr'));
 
-
   var hub,
       mockedHub, /*server hub*/
       spy,
       $timeout;
 
   beforeEach(inject(function(hubFactory, _$timeout_) {
+
     mockedHub = {};
     mockedHub.connection = window.$.hubConnection();
     mockedHub.proxy = mockedHub.connection.createHubProxy('testHub');
@@ -18,7 +18,6 @@ describe('socketFactory', function() {
     hub = hubFactory( mockedHub );
 
     $timeout = _$timeout_;
-
 
   }));
 
@@ -34,10 +33,10 @@ describe('socketFactory', function() {
 
       $timeout.flush();
       expect(spy).toHaveBeenCalled();
+
     });
 
   });
-
 
   describe('#invoke', function() {
 
@@ -66,7 +65,6 @@ describe('socketFactory', function() {
 
   describe('# connect', function() {
 
-
     it('should call the delegate hub\'s connect.start', function() {
 
       spyOn(mockedHub.connection, 'start');
@@ -76,17 +74,32 @@ describe('socketFactory', function() {
     });
 
 
-    it('should call the delegate hub\'s connect.start with transport option', function() {
+    it('should call the delegate hub\'s connection.start with transport option', function() {
 
       spyOn(mockedHub.connection, 'start');
+
       var transObj = {
         transport: 'longPolling'
       };
-      hub.connect(transObj);
 
+      hub.connect(transObj);
       expect(mockedHub.connection.start.calls.first().args[0]).toEqual(transObj);
 
     });
+
+  });
+
+
+  describe('# disconnect', function () {
+
+    it('should call the delegate hub\'s connection.stop', function() {
+
+      spyOn(mockedHub.connection, 'stop');
+      hub.stop();
+      expect(mockedHub.connection.stop).toHaveBeenCalled();
+
+    });
+
   });
 
 
