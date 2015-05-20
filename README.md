@@ -55,3 +55,24 @@ Optionally takes a callback.
 
 Works just like the method of the same name from SignalR.NET.
 
+
+### `hubFactory({ hub: }}`
+
+This option allows you to provide the `hub` service with a `SignalR.NET hub` object to be used internally.
+This is useful if you want to connect on a different path, or need to hold a reference to the `SignalR.NET hub` object for use elsewhere.
+
+```javascript
+angular.module('myApp', [
+  'roy.signalr-hub'
+]).
+factory('myHub', function (socketFactory) {
+  var myIoHub = $.hubConnection('/your-root-path', {useDefaultPath: false});
+
+  mySocket = socketFactory({
+    hub: myIoHub
+  });
+
+  return mySocket;
+});
+```
+
