@@ -55,21 +55,37 @@ describe('socketFactory', function() {
 
   describe('# connect', function() {
 
+    beforeEach(inject(function($q) {
+
+      //setup that #connect returns a promise.
+      spyOn(mockedHub.connection, 'start').and.callFake(function() {
+        var deferred = $q.defer();
+        deferred.resolve('resolved # connect call');
+        return deferred.promise;
+      });
+
+    }));
+
     it('should call the delegate hub\'s connect.start', function() {
-      spyOn(mockedHub.connection, 'start');
       hub.connect();
 
       expect(mockedHub.connection.start).toHaveBeenCalled();
     });
 
     it('should call the delegate hub\'s connection.start with transport option', function() {
-      spyOn(mockedHub.connection, 'start');
       var transObj = {
         transport: 'longPolling'
       };
       hub.connect(transObj);
 
       expect(mockedHub.connection.start.calls.first().args[0]).toEqual(transObj);
+    });
+
+    it('should return a promise', function() {
+      hub.connect().then(function() {
+        console.log('Success');
+      });
+      $timeout.flush();
     });
 
   });
@@ -97,7 +113,6 @@ describe('socketFactory', function() {
     it('should call the delegate hub\'s connection.error', function() {
       expect(mockedHub.connection.error).toHaveBeenCalled();
     });
-
 
     it('should apply asynchronously', function() {
       expect(mockedHub.connection.error.calls.first().args[0]).not.toBe(spy);
