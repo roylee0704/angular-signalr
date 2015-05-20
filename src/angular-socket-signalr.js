@@ -17,7 +17,7 @@ angular.module('roy.socket-signalr', []).
       return function hubFactory (socket) {
         return {
           connect: function(transObj) {
-            socket.connection.start(transObj);
+            return socket.connection.start(transObj);
           },
           disconnect: function() {
             socket.connection.stop();
