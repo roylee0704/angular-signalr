@@ -101,11 +101,14 @@ describe('socketFactory', function() {
 
     it('should apply asynchronously', function() {
       expect(mockedHub.connection.error.calls.first().args[0]).not.toBe(spy);
-      mockedHub.connection.error.calls.first().args[0]();
+
+      var error = {error : 'test-error'};
+
+      mockedHub.connection.error.calls.first().args[0](error);
       expect(spy).not.toHaveBeenCalled();
 
       $timeout.flush();
-      expect(spy).toHaveBeenCalled();
+      expect(spy).toHaveBeenCalledWith(error);
     });
 
   });
@@ -126,11 +129,13 @@ describe('socketFactory', function() {
     it('should apply asynchronously', function() {
       expect(mockedHub.connection.stateChanged.calls.first().args[0]).not.toBe(spy);
 
-      mockedHub.connection.stateChanged.calls.first().args[0]();
+      var state = {state : 'test-state'};
+
+      mockedHub.connection.stateChanged.calls.first().args[0](state);
       expect(spy).not.toHaveBeenCalled();
 
       $timeout.flush();
-      expect(spy).toHaveBeenCalled();
+      expect(spy).toHaveBeenCalledWith(state);
     });
 
   });
