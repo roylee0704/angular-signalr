@@ -99,7 +99,7 @@ angular.module('myApp', [
 factory('myHub', function (socketFactory) {
   var mySpecialHub = $.hubConnection('/some/path', {useDefaultPath: false});
 
-  myHub= socketFactory('yourHubName', {
+  myHub = socketFactory('yourHubName', {
     hub: mySpecialHub
   });
 
@@ -107,6 +107,61 @@ factory('myHub', function (socketFactory) {
 });
 ```
 
+### `hub.error`
+A handler for error events.
+Works just like the method of the same name from SignalR.NET.
+#### Example
 
+```javascript
+angular.module('myApp', [
+  'roy.signalr-hub'
+]).
+factory('myHub', function (socketFactory) {
+  myHub = socketFactory('yourHubName');
+
+  return myHub;
+}).
+controller('MyCtrl', function (myHub) {
+  myHub.error(function (error) {
+    console.log('SignalR error: ' + error)
+  });
+});
+```
+
+
+### `hub.stateChanged`
+Raised when the connection state changes. 
+Works just like the method of the same name from SignalR.NET.
+
+#### Example
+
+```javascript
+angular.module('myApp', [
+  'roy.signalr-hub'
+]).
+factory('myHub', function (socketFactory) {
+  myHub = socketFactory('yourHubName');
+
+  return myHub;
+}).
+controller('MyCtrl', function (myHub) {
+  myHub.stateChanged(function(state){
+    switch (state.newState) {
+      case $.signalR.connectionState.connecting:
+        //your code here
+        break;
+      case $.signalR.connectionState.connected:
+        //your code here
+        break;
+      case $.signalR.connectionState.reconnecting:
+        //your code here
+        break;
+      case $.signalR.connectionState.disconnected:
+        //your code here
+        break;
+    }
+  });
+});
+```
 
 
