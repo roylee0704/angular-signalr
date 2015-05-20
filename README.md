@@ -39,3 +39,19 @@ factory('myHub', function (hubFactory) {
 
 With that, you can inject your `myHub` service into controllers and
 other serivices within your application!
+
+## API
+
+For the most part, this component works exactly like you would expect.
+
+
+### `hub.on`
+Takes an event name and callback.
+Works just like the method of the same name from Socket.IO.
+
+### `hub.emit`
+Sends a message to the server.
+Optionally takes a callback.
+
+Works just like the method of the same name from SignalR.NET.
+
