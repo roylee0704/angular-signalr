@@ -1,6 +1,6 @@
 
 # angular-signalr 
-[![Build Status](https://travis-ci.org/roylee0704/angular-signalr.svg?branch=master)](https://travis-ci.org/roylee0704/angular-socket-signalr)
+[![Build Status](https://travis-ci.org/roylee0704/angular-signalr.svg?branch=master)](https://travis-ci.org/roylee0704/angular-signalr)
 [![Code Climate](https://codeclimate.com/github/roylee0704/angular-signalr/badges/gpa.svg)](https://codeclimate.com/github/roylee0704/angular-signalr)
 [![Code Climate](https://codeclimate.com/github/roylee0704/angular-socket-signalr/badges/gpa.svg)](https://codeclimate.com/github/roylee0704/angular-socket-signalr)[![Coverage Status](https://coveralls.io/repos/roylee0704/angular-signalr/badge.svg?branch=master)](https://coveralls.io/r/roylee0704/angular-signalr?branch=master)
 [![Dependency Status](https://gemnasium.com/roylee0704/angular-socket-signalr.svg)](https://gemnasium.com/roylee0704/angular-socket-signalr)
@@ -47,7 +47,7 @@ For the most part, this component works exactly like you would expect.
 
 ### `hub.on`
 Takes an event name and callback.
-Works just like the method of the same name from Socket.IO.
+Works just like the method of the same name from SignalR.NET.
 
 ### `hub.emit`
 Sends a message to the server.
