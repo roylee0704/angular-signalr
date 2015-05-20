@@ -14,7 +14,7 @@ Bower Component for using AngularJS with [SignalR.NET](http://signalr.net/).
 1. `bower install angular-signalr` or [download the zip](https://github.com/roylee0704/angular-signalr/archive/master.zip).
 2. Make sure the SignalR.NET client lib is loaded.
 3. Include the `jquery.signalR-x.x.x.min.js` script provided by this component into your app.
-4. Add `roylee.signalr-hub` as a module dependency to your app.
+4. Add `roy.signalr-hub` as a module dependency to your app.
 
 
 ## Usage
