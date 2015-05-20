@@ -72,7 +72,7 @@ factory('myHub', function (socketFactory) {
     hub: myIoHub
   });
 
-  return mySocket;
+  return myIoHub;
 });
 ```
 
