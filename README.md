@@ -49,16 +49,49 @@ For the most part, this component works exactly like you would expect.
 Takes an event name and callback.
 Works just like the method of the same name from SignalR.NET.
 
+#### Example
+
+```javascript
+angular.module('myApp', [
+  'roy.signalr-hub'
+]).
+factory('myHub', function (hubFactory) {
+  return hubFactory('yourHubName');
+}).
+controller('MyCtrl', function (myHub) {
+  myHub.on('bar', function () {
+    $scope.bar = true;
+  });
+});
+```
+
 ### `hub.invoke`
 Sends a message to the server.
 Optionally takes a callback.
 
 Works just like the method of the same name from SignalR.NET.
 
+#### Example
 
-### `hubFactory({ hub: }}`
+```javascript
+angular.module('myApp', [
+  'roy.signalr-hub'
+]).
+factory('myHub', function (hubFactory) {
+  return hubFactory('yourHubName');
+}).
+controller('MyCtrl', function (myHub) {
+  myHub.invoke('foo', function () {
+    $scope.foo = true;
+  });
+});
+```
 
-This option allows you to provide the `hub` service with a `SignalR.NET hub` object to be used internally.
+### `hubFactory(hubName, { hub: }}`
+
+The first argument: `hubName` is a required parameter, it specifies the name of the Hub that you have created on the Server.
+
+For next argument is optional, this option allows you to provide the `hub` service with a `SignalR.NET hub` object to be used internally.
 This is useful if you want to connect on a different path, or need to hold a reference to the `SignalR.NET hub` object for use elsewhere.
 
 #### Example
@@ -68,13 +101,16 @@ angular.module('myApp', [
   'roy.signalr-hub'
 ]).
 factory('myHub', function (socketFactory) {
-  var myIoHub = $.hubConnection('/your-root-path', {useDefaultPath: false});
+  var mySpecialHub = $.hubConnection('/some/path', {useDefaultPath: false});
 
-  mySocket = socketFactory({
-    hub: myIoHub
+  myHub= socketFactory('yourHubName', {
+    hub: mySpecialHub
   });
 
-  return myIoHub;
+  return myHub;
 });
 ```
+
+
+
 
