@@ -1,4 +1,4 @@
-angular.module('roy.socket-signalr', []).
+angular.module('roy.signalr-hub', []).
   provider('hubFactory', function() {
     'use strict';
 

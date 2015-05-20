@@ -1,7 +1,7 @@
 describe('socketFactory', function() {
   'use strict';
 
-  beforeEach(module('roy.socket-signalr'));
+  beforeEach(module('roy.signalr-hub'));
 
   var hub,
       mockedHub, /*server hub*/
