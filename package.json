@@ -1,11 +1,11 @@
 {
-  "name": "angular-socket-signalr",
+  "name": "angular-signalr",
   "version": "0.0.1",
   "description": "Angular wrapper for signalr in socket.io style",
-  "main": "angular-socket-signalr.js",
+  "main": "angular-signalr.js",
   "repository": {
     "type": "git",
-    "url": "git://github.com/roylee0704/angular-socket-signalr.git"
+    "url": "git://github.com/roylee0704/angular-signalr.git"
   },
   "keywords": [
     "angular",
@@ -16,7 +16,7 @@
   "readmeFilename": "README.md",
   "homepage": "",
   "bugs": {
-    "url": "https://github.com/roylee0704/angular-socket-signalr/issues"
+    "url": "https://github.com/roylee0704/angular-signalr/issues"
   },
   "devDependencies": {
     "angular": "^1.2.x",

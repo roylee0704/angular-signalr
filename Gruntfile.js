@@ -76,7 +76,7 @@ module.exports = function (grunt) {
     uglify: {
       dist: {
         files: {
-          '<%= dist %>/angular-socket-signalr.min.js': ['src/angular-socket-signalr.js']
+          '<%= dist %>/angular-signalr.min.js': ['src/angular-signalr.js']
         }
       }
     },
