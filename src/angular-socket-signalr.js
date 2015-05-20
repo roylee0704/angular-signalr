@@ -30,6 +30,9 @@ angular.module('roy.socket-signalr', []).
           },
           error: function(callback) {
             socket.connection.error(asyncAngularify(socket, callback));
+          },
+          stateChanged: function(callback) {
+            socket.connection.stateChanged(asyncAngularify(socket, callback));
           }
         };
 
