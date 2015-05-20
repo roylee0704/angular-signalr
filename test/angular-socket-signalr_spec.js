@@ -9,14 +9,14 @@ describe('socketFactory', function() {
       $timeout;
 
   beforeEach(inject(function(hubFactory, _$timeout_) {
-    mockedHub = {};
-    mockedHub.connection = window.$.hubConnection();
-    mockedHub.proxy = mockedHub.connection.createHubProxy('testHub');
-    spy = jasmine.createSpy('mockedFn');
 
-    hub = hubFactory({
+    mockedHub = window.$.hubConnection();
+    spy = jasmine.createSpy('mockedFn');
+    hub = hubFactory('testHub', {
       hub: mockedHub
     });
+
+    mockedHub.proxy = hub.proxy;
 
     $timeout = _$timeout_;
   }));
@@ -60,7 +60,7 @@ describe('socketFactory', function() {
     beforeEach(inject(function($q) {
 
       //setup that #connect returns a promise.
-      spyOn(mockedHub.connection, 'start').and.callFake(function() {
+      spyOn(mockedHub, 'start').and.callFake(function() {
         var deferred = $q.defer();
         deferred.resolve('resolved # connect call');
         return deferred.promise;
@@ -68,19 +68,19 @@ describe('socketFactory', function() {
 
     }));
 
-    it('should call the delegate hub\'s connect.start', function() {
+    it('should call the delegate hub\'s #start', function() {
       hub.connect();
 
-      expect(mockedHub.connection.start).toHaveBeenCalled();
+      expect(mockedHub.start).toHaveBeenCalled();
     });
 
-    it('should call the delegate hub\'s connection.start with transport option', function() {
+    it('should call the delegate hub\'s #start with transport option', function() {
       var transObj = {
         transport: 'longPolling'
       };
       hub.connect(transObj);
 
-      expect(mockedHub.connection.start.calls.first().args[0]).toEqual(transObj);
+      expect(mockedHub.start.calls.first().args[0]).toEqual(transObj);
     });
 
     it('should return a promise', function() {
@@ -95,11 +95,11 @@ describe('socketFactory', function() {
 
   describe('# disconnect', function () {
 
-    it('should call the delegate hub\'s connection.stop', function() {
-      spyOn(mockedHub.connection, 'stop');
+    it('should call the delegate hub\'s #stop', function() {
+      spyOn(mockedHub, 'stop');
       hub.disconnect();
 
-      expect(mockedHub.connection.stop).toHaveBeenCalled();
+      expect(mockedHub.stop).toHaveBeenCalled();
     });
 
   });
@@ -108,20 +108,20 @@ describe('socketFactory', function() {
   describe('# error', function () {
 
     beforeEach(function() {
-      spyOn(mockedHub.connection, 'error');
+      spyOn(mockedHub, 'error');
       hub.error(spy);
     });
 
-    it('should call the delegate hub\'s connection.error', function() {
-      expect(mockedHub.connection.error).toHaveBeenCalled();
+    it('should call the delegate hub\'s #error', function() {
+      expect(mockedHub.error).toHaveBeenCalled();
     });
 
     it('should apply asynchronously', function() {
-      expect(mockedHub.connection.error.calls.first().args[0]).not.toBe(spy);
+      expect(mockedHub.error.calls.first().args[0]).not.toBe(spy);
 
       var error = {error : 'test-error'};
 
-      mockedHub.connection.error.calls.first().args[0](error);
+      mockedHub.error.calls.first().args[0](error);
       expect(spy).not.toHaveBeenCalled();
 
       $timeout.flush();
@@ -134,21 +134,21 @@ describe('socketFactory', function() {
   describe('# stateChanged', function() {
 
     beforeEach(function() {
-      spyOn(mockedHub.connection, 'stateChanged');
+      spyOn(mockedHub, 'stateChanged');
       hub.stateChanged(spy);
     });
 
-    it('should call the delegate hub\'s connection.stateChanged', function() {
-      expect(mockedHub.connection.stateChanged.calls.first().args[0]).not.toBe(spy);
-      expect(mockedHub.connection.stateChanged).toHaveBeenCalled();
+    it('should call the delegate hub\'s stateChanged', function() {
+      expect(mockedHub.stateChanged.calls.first().args[0]).not.toBe(spy);
+      expect(mockedHub.stateChanged).toHaveBeenCalled();
     });
 
     it('should apply asynchronously', function() {
-      expect(mockedHub.connection.stateChanged.calls.first().args[0]).not.toBe(spy);
+      expect(mockedHub.stateChanged.calls.first().args[0]).not.toBe(spy);
 
       var state = {state : 'test-state'};
 
-      mockedHub.connection.stateChanged.calls.first().args[0](state);
+      mockedHub.stateChanged.calls.first().args[0](state);
       expect(spy).not.toHaveBeenCalled();
 
       $timeout.flush();

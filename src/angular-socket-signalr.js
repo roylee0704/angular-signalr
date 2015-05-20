@@ -15,33 +15,55 @@ angular.module('roy.socket-signalr', []).
 
       };
 
-      return function hubFactory (options) {
+      return function hubFactory (hubName, opts) {
+        opts = angular.extend({
+          hub: window.$.hubConnection(),
+          logging: false,
+          qs: {}
+        }, opts);
+
+        var _hub = opts.hub;
+        var _logging = opts.logging;
+        var _qs = opts.qs;
+
+        var _proxy = _hub.createHubProxy(hubName);
 
 
-        options = options || {};
-        var hub = options.hub || $.hubConnection();
+        var wrappedHub = {
+          hub: _hub,
+          proxy: _proxy,
 
-        return {
           connect: function(transObj) {
-            return hub.connection.start(transObj);
+            _hub.logging = _logging;
+            _hub.qs = _qs;
+            return _hub.start(transObj);
           },
+
           disconnect: function() {
-            hub.connection.stop();
+            _hub.stop();
           },
+
           on: function(eventName, callback) {
-            hub.proxy.on(eventName, asyncAngularify(hub, callback));
+            _proxy.on(eventName, asyncAngularify(_hub, callback));
           },
+
           invoke: function(ev, data) {
-            hub.proxy.invoke.apply(hub, arguments);
+            _proxy.invoke.apply(_hub, arguments);
           },
-          error: function(callback) {
-            hub.connection.error(asyncAngularify(hub, callback));
-          },
+
           stateChanged: function(callback) {
-            hub.connection.stateChanged(asyncAngularify(hub, callback));
+            _hub.stateChanged(asyncAngularify(_hub, callback));
+          },
+
+          error: function(callback) {
+            _hub.error(asyncAngularify(_hub, callback));
           }
         };
 
+        //auto-establish connection with server
+        wrappedHub.promise = wrappedHub.connect();
+
+        return wrappedHub;
       };
     }];
   });
