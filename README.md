@@ -22,3 +22,21 @@ Bower Component for using AngularJS with [SignalR.NET](http://signalr.net/).
 
 This module exposes a `hubFactory`, which is an API for instantiating
 signalr-hubs that are integrated with Angular's digest cycle.
+
+
+
+### Making a Hub Instance
+
+```javascript
+// in the top-level module of the app
+angular.module('myApp', [
+  'roylee.signalr-hub',
+  'myApp.MyCtrl'
+]).
+factory('myHub', function (hubFactory) {
+  return hubFactory('yourHubName');
+});
+```
+
+With that, you can inject your `myHub` service into controllers and
+other serivices within your application!
