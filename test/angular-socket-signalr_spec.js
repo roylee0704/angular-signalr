@@ -89,23 +89,49 @@ describe('socketFactory', function() {
 
   describe('# error', function () {
 
-
     it('should call the delegate hub\'s connection.error', function() {
       spyOn(mockedHub.connection, 'error');
       hub.error(spy);
 
-      expect(mockedHub.connection.error.calls.first().args[0]).not.toBe(spy);
       expect(mockedHub.connection.error).toHaveBeenCalled();
     });
 
-    it('should apply asynchronously', function() {
-      hub.error(spy);
-      var error = {error: 'test-error'};
-      mockedHub.connection.throwErr(error);
 
+    it('should apply asynchronously', function() {
+      spyOn(mockedHub.connection, 'error');
+      hub.error(spy);
+
+      expect(mockedHub.connection.error.calls.first().args[0]).not.toBe(spy);
+      mockedHub.connection.error.calls.first().args[0]();
       expect(spy).not.toHaveBeenCalled();
+
       $timeout.flush();
-      expect(spy).toHaveBeenCalledWith(error);
+      expect(spy).toHaveBeenCalled();
+    });
+
+  });
+
+
+  describe('# stateChanged', function() {
+
+    it('should call the delegate hub\'s connection.stateChanged', function() {
+      spyOn(mockedHub.connection, 'stateChanged');
+      hub.stateChanged(spy);
+
+      expect(mockedHub.connection.stateChanged.calls.first().args[0]).not.toBe(spy);
+      expect(mockedHub.connection.stateChanged).toHaveBeenCalled();
+    });
+
+    it('should apply asynchronously', function() {
+      spyOn(mockedHub.connection, 'stateChanged');
+      hub.stateChanged(spy);
+
+      expect(mockedHub.connection.stateChanged.calls.first().args[0]).not.toBe(spy);
+      mockedHub.connection.stateChanged.calls.first().args[0]();
+      expect(spy).not.toHaveBeenCalled();
+
+      $timeout.flush();
+      expect(spy).toHaveBeenCalled();
     });
 
   });
