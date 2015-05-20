@@ -98,7 +98,6 @@ describe('socketFactory', function() {
       expect(mockedHub.connection.error).toHaveBeenCalled();
     });
 
-
     it('should apply asynchronously', function() {
       hub.error(spy);
       var error = {error: 'test-error'};
