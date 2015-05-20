@@ -1,6 +1,6 @@
 
 # angular-signalr 
-[![Build Status](https://travis-ci.org/roylee0704/angular-socket-signalr.svg?branch=master)](https://travis-ci.org/roylee0704/angular-socket-signalr)
+[![Build Status](https://travis-ci.org/roylee0704/angular-signalr.svg?branch=master)](https://travis-ci.org/roylee0704/angular-socket-signalr)
 [![Code Climate](https://codeclimate.com/github/roylee0704/angular-socket-signalr/badges/gpa.svg)](https://codeclimate.com/github/roylee0704/angular-socket-signalr)
 [![Test Coverage](https://codeclimate.com/github/roylee0704/angular-socket-signalr/badges/coverage.svg)](https://codeclimate.com/github/roylee0704/angular-socket-signalr/coverage)
 [![Coverage Status](https://coveralls.io/repos/roylee0704/angular-socket-signalr/badge.png?branch=master)](https://coveralls.io/r/roylee0704/angular-socket-signalr?branch=master) 
@@ -22,3 +22,21 @@ Bower Component for using AngularJS with [SignalR.NET](http://signalr.net/).
 
 This module exposes a `hubFactory`, which is an API for instantiating
 signalr-hubs that are integrated with Angular's digest cycle.
+
+
+
+### Making a Hub Instance
+
+```javascript
+// in the top-level module of the app
+angular.module('myApp', [
+  'roylee.signalr-hub',
+  'myApp.MyCtrl'
+]).
+factory('myHub', function (hubFactory) {
+  return hubFactory('yourHubName');
+});
+```
+
+With that, you can inject your `myHub` service into controllers and
+other serivices within your application!
