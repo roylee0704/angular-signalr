@@ -19,7 +19,6 @@ describe('socketFactory', function() {
     $timeout = _$timeout_;
   }));
 
-
   describe('#on', function() {
 
     it('should apply asynchronously', function () {
@@ -59,17 +58,17 @@ describe('socketFactory', function() {
     it('should call the delegate hub\'s connect.start', function() {
       spyOn(mockedHub.connection, 'start');
       hub.connect();
+
       expect(mockedHub.connection.start).toHaveBeenCalled();
     });
 
     it('should call the delegate hub\'s connection.start with transport option', function() {
       spyOn(mockedHub.connection, 'start');
-
       var transObj = {
         transport: 'longPolling'
       };
-
       hub.connect(transObj);
+
       expect(mockedHub.connection.start.calls.first().args[0]).toEqual(transObj);
     });
 
@@ -81,11 +80,34 @@ describe('socketFactory', function() {
     it('should call the delegate hub\'s connection.stop', function() {
       spyOn(mockedHub.connection, 'stop');
       hub.disconnect();
+
       expect(mockedHub.connection.stop).toHaveBeenCalled();
     });
 
   });
 
 
+  describe('# error', function () {
+
+
+    it('should call the delegate hub\'s connection.error', function() {
+      spyOn(mockedHub.connection, 'error');
+      hub.error(spy);
+
+      expect(mockedHub.connection.error.calls.first().args[0]).not.toBe(spy);
+      expect(mockedHub.connection.error).toHaveBeenCalled();
+    });
+
+    it('should apply asynchronously', function() {
+      hub.error(spy);
+      var error = {error: 'test-error'};
+      mockedHub.connection.throwErr(error);
+
+      expect(spy).not.toHaveBeenCalled();
+      $timeout.flush();
+      expect(spy).toHaveBeenCalledWith(error);
+    });
+
+  });
 
 });
