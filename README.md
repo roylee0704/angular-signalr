@@ -49,7 +49,7 @@ For the most part, this component works exactly like you would expect.
 Takes an event name and callback.
 Works just like the method of the same name from SignalR.NET.
 
-### `hub.emit`
+### `hub.invoke`
 Sends a message to the server.
 Optionally takes a callback.
 
