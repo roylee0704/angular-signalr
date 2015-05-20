@@ -61,6 +61,8 @@ Works just like the method of the same name from SignalR.NET.
 This option allows you to provide the `hub` service with a `SignalR.NET hub` object to be used internally.
 This is useful if you want to connect on a different path, or need to hold a reference to the `SignalR.NET hub` object for use elsewhere.
 
+#### Example
+
 ```javascript
 angular.module('myApp', [
   'roy.signalr-hub'
