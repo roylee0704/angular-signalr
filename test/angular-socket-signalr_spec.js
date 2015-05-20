@@ -89,18 +89,17 @@ describe('socketFactory', function() {
 
   describe('# error', function () {
 
-    it('should call the delegate hub\'s connection.error', function() {
+    beforeEach(function() {
       spyOn(mockedHub.connection, 'error');
       hub.error(spy);
+    });
 
+    it('should call the delegate hub\'s connection.error', function() {
       expect(mockedHub.connection.error).toHaveBeenCalled();
     });
 
 
     it('should apply asynchronously', function() {
-      spyOn(mockedHub.connection, 'error');
-      hub.error(spy);
-
       expect(mockedHub.connection.error.calls.first().args[0]).not.toBe(spy);
       mockedHub.connection.error.calls.first().args[0]();
       expect(spy).not.toHaveBeenCalled();
@@ -114,19 +113,19 @@ describe('socketFactory', function() {
 
   describe('# stateChanged', function() {
 
-    it('should call the delegate hub\'s connection.stateChanged', function() {
+    beforeEach(function() {
       spyOn(mockedHub.connection, 'stateChanged');
       hub.stateChanged(spy);
+    });
 
+    it('should call the delegate hub\'s connection.stateChanged', function() {
       expect(mockedHub.connection.stateChanged.calls.first().args[0]).not.toBe(spy);
       expect(mockedHub.connection.stateChanged).toHaveBeenCalled();
     });
 
     it('should apply asynchronously', function() {
-      spyOn(mockedHub.connection, 'stateChanged');
-      hub.stateChanged(spy);
-
       expect(mockedHub.connection.stateChanged.calls.first().args[0]).not.toBe(spy);
+
       mockedHub.connection.stateChanged.calls.first().args[0]();
       expect(spy).not.toHaveBeenCalled();
 
