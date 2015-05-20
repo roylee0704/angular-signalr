@@ -29,7 +29,7 @@ signalr-hubs that are integrated with Angular's digest cycle.
 ```javascript
 // in the top-level module of the app
 angular.module('myApp', [
-  'roylee.signalr-hub',
+  'roy.signalr-hub',
   'myApp.MyCtrl'
 ]).
 factory('myHub', function (hubFactory) {
