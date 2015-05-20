@@ -67,8 +67,6 @@ controller('MyCtrl', function (myHub) {
 
 ### `hub.invoke`
 Sends a message to the server.
-Optionally takes a callback.
-
 Works just like the method of the same name from SignalR.NET.
 
 #### Example
@@ -81,9 +79,7 @@ factory('myHub', function (hubFactory) {
   return hubFactory('yourHubName');
 }).
 controller('MyCtrl', function (myHub) {
-  myHub.invoke('foo', function () {
-    $scope.foo = true;
-  });
+  myHub.invoke('foo');
 });
 ```
 
