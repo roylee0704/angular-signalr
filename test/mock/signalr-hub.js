@@ -10,15 +10,24 @@ var $ =  {
 function createMockHubObject () {
   'use strict';
 
-  var hub = {
+  var connection = {
+    _err_fn: function(){},
     createHubProxy: function (hubName) {
       return new HubProxy(hubName);
     },
     start: function(transObj) {},
-    stop: function() {}
+    stop: function() {},
+    error: function(err_fn) {
+      this._err_fn = err_fn;
+    },
+    throwErr: function(error) {
+      if(typeof this._err_fn === 'function') {
+        this._err_fn(error);
+      }
+    }
   };
 
-  return hub;
+  return connection;
 }
 
 
