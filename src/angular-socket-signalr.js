@@ -12,27 +12,33 @@ angular.module('roy.socket-signalr', []).
             callback.apply(socket, args);
           }, 0);
         }: angular.noop;
+
       };
 
-      return function hubFactory (socket) {
+      return function hubFactory (options) {
+
+
+        options = options || {};
+        var hub = options.hub || $.hubConnection();
+
         return {
           connect: function(transObj) {
-            return socket.connection.start(transObj);
+            return hub.connection.start(transObj);
           },
           disconnect: function() {
-            socket.connection.stop();
+            hub.connection.stop();
           },
           on: function(eventName, callback) {
-            socket.proxy.on(eventName, asyncAngularify(socket, callback));
+            hub.proxy.on(eventName, asyncAngularify(hub, callback));
           },
           invoke: function(ev, data) {
-            socket.proxy.invoke.apply(socket, arguments);
+            hub.proxy.invoke.apply(hub, arguments);
           },
           error: function(callback) {
-            socket.connection.error(asyncAngularify(socket, callback));
+            hub.connection.error(asyncAngularify(hub, callback));
           },
           stateChanged: function(callback) {
-            socket.connection.stateChanged(asyncAngularify(socket, callback));
+            hub.connection.stateChanged(asyncAngularify(hub, callback));
           }
         };
 

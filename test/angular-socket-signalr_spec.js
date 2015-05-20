@@ -14,12 +14,14 @@ describe('socketFactory', function() {
     mockedHub.proxy = mockedHub.connection.createHubProxy('testHub');
     spy = jasmine.createSpy('mockedFn');
 
-    hub = hubFactory( mockedHub );
+    hub = hubFactory({
+      hub: mockedHub
+    });
 
     $timeout = _$timeout_;
   }));
 
-  describe('#on', function() {
+  describe('# on', function() {
 
     it('should apply asynchronously', function () {
       hub.on('event', spy);
@@ -33,7 +35,7 @@ describe('socketFactory', function() {
 
   });
 
-  describe('#invoke', function() {
+  describe('# invoke', function() {
 
     beforeEach(function() {
       spyOn(mockedHub.proxy, 'invoke');
