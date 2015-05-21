@@ -1,8 +1,9 @@
 angular.module('roy.signalr-hub', []).
+  constant('$', window.jQuery).
   provider('hubFactory', function() {
     'use strict';
 
-    this.$get = ['$rootScope', '$timeout', function($rootScope, $timeout) {
+    this.$get = ['$rootScope', '$timeout', '$', function($rootScope, $timeout, $) {
 
       var asyncAngularify  = function(socket, callback) {
 
@@ -17,7 +18,7 @@ angular.module('roy.signalr-hub', []).
 
       return function hubFactory (hubName, opts) {
         opts = angular.extend({
-          hub: window.$.hubConnection(),
+          hub: $.hubConnection(),
           logging: false,
           qs: {}
         }, opts);
