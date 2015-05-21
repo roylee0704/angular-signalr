@@ -2,10 +2,9 @@
  * Created by roylee on 18/05/2015.
  */
 
-var $ =  {
+var jQuery =  {
   hubConnection: createMockHubObject
 };
-
 
 function createMockHubObject () {
   'use strict';
