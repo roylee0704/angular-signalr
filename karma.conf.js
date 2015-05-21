@@ -11,12 +11,14 @@ module.exports = function (config) {
       'node_modules/angular/angular.js',
       'node_modules/angular-mocks/angular-mocks.js',
 
+      //the mock
+      'test/mock/*.js',
+
       // the directives
       'src/**/*.js',
 
       // test
-      'test/*_spec.js',
-      'test/mock/*.js'
+      'test/*_spec.js'
     ],
 
     // enable / disable watching file and executing tests whenever any file changes
