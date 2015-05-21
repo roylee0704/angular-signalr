@@ -38,6 +38,7 @@
     "spyOn"      : false,
     "inject"     : false,
     "it"         : false,
-    "xdescribe"  : false
+    "xdescribe"  : false,
+    "xit"        : false
   }
 }
