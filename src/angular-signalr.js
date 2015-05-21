@@ -5,17 +5,16 @@ angular.module('roy.signalr-hub', []).
 
     this.$get = ['$rootScope', '$timeout', '$', function($rootScope, $timeout, $) {
 
-      var asyncAngularify  = function(socket, callback) {
+      var asyncAngularify  = function(context, callback) {
 
         return (typeof callback === 'function')? function() {
           var args = arguments;
           $timeout(function(){
-            callback.apply(socket, args);
+            callback.apply(context, args);
           }, 0);
         }: angular.noop;
 
       };
-
       return function hubFactory (hubName, opts) {
         opts = angular.extend({
           hub: $.hubConnection(),
@@ -26,9 +25,7 @@ angular.module('roy.signalr-hub', []).
         var _hub = opts.hub;
         var _logging = opts.logging;
         var _qs = opts.qs;
-
         var _proxy = _hub.createHubProxy(hubName);
-
 
         var wrappedHub = {
           hub: _hub,
@@ -45,11 +42,11 @@ angular.module('roy.signalr-hub', []).
           },
 
           on: function(eventName, callback) {
-            _proxy.on(eventName, asyncAngularify(_hub, callback));
+            _proxy.on(eventName, asyncAngularify(_proxy, callback));
           },
 
           invoke: function(ev, data) {
-            _proxy.invoke.apply(_hub, arguments);
+            _proxy.invoke.apply(_proxy, arguments);
           },
 
           stateChanged: function(callback) {
