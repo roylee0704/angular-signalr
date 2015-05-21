@@ -10,7 +10,7 @@ describe('socketFactory', function() {
 
   beforeEach(inject(function(hubFactory, _$timeout_) {
 
-    mockedHub = window.$.hubConnection();
+    mockedHub = window.jQuery.hubConnection();
     spy = jasmine.createSpy('mockedFn');
     hub = hubFactory('testHub', {
       hub: mockedHub
