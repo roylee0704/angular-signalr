@@ -15,6 +15,7 @@ angular.module('roy.signalr-hub', []).
         }: angular.noop;
 
       };
+
       return function hubFactory (hubName, opts) {
         opts = angular.extend({
           hub: $.hubConnection(),
@@ -53,7 +54,9 @@ angular.module('roy.signalr-hub', []).
           },
 
           stateChanged: function(callback) {
-            _hub.stateChanged(asyncAngularify(_hub, callback));
+            return promisify(function() {
+              _hub.stateChanged(asyncAngularify(_hub, callback));
+            });
           },
 
           error: function(callback) {

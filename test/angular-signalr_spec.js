@@ -52,8 +52,9 @@ describe('socketFactory', function() {
 
     it('should not call the delegate hub\'s invoke prior #connect', function() {
       hub.invoke('event', {foo: 'bar'});
-
       expect(mockedHub.proxy.invoke).not.toHaveBeenCalled();
+
+      //assume connection has been established.
       $timeout.flush();
       expect(mockedHub.proxy.invoke).toHaveBeenCalled();
     });
@@ -79,8 +80,9 @@ describe('socketFactory', function() {
       var transObj = {
         transport: 'longPolling'
       };
-      hub.connect(transObj);
 
+      hub.connect(transObj);
+      console.log(mockedHub.start.calls.first());
       expect(mockedHub.start.calls.first().args[0]).toEqual(transObj);
     });
 
@@ -140,12 +142,18 @@ describe('socketFactory', function() {
       hub.stateChanged(spy);
     });
 
-    it('should call the delegate hub\'s stateChanged', function() {
-      expect(mockedHub.stateChanged.calls.first().args[0]).not.toBe(spy);
+    it('should not call the delegate hub\'s stateChanged prior #connect', function() {
+      expect(mockedHub.stateChanged).not.toHaveBeenCalled();
+
+      //assume connection has been established.
+      $timeout.flush();
       expect(mockedHub.stateChanged).toHaveBeenCalled();
     });
 
     it('should apply asynchronously', function() {
+
+      //assume connection has been established.
+      $timeout.flush();
       expect(mockedHub.stateChanged.calls.first().args[0]).not.toBe(spy);
 
       var state = {state : 'test-state'};
