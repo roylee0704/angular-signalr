@@ -6,13 +6,15 @@ describe('socketFactory', function() {
   var hub,
       mockedHub, /*server hub*/
       spy,
-      $timeout;
+      $timeout,
+      $browser;
 
-  beforeEach(inject(function(hubFactory, _$timeout_, $q) {
+  beforeEach(inject(function(hubFactory, _$timeout_, $q, _$browser_) {
 
     mockedHub = window.jQuery.hubConnection();
     spy = jasmine.createSpy('mockedFn');
     $timeout = _$timeout_;
+    $browser = _$browser_;
 
     //setup that #connect returns a promise.
     spyOn(mockedHub, 'start').and.callFake(function() {
@@ -39,6 +41,20 @@ describe('socketFactory', function() {
 
       $timeout.flush();
       expect(spy).toHaveBeenCalled();
+    });
+
+  });
+
+
+  xdescribe('# off', function() {
+
+    xit('should not call after removing an event', function () {
+      hub.on('event', spy);
+      hub.off('event');
+
+      mockedHub.proxy.invoke('event');
+
+      expect($browser.deferredFns.length).toBe(0);
     });
 
   });
