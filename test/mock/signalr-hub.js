@@ -29,13 +29,16 @@ function HubProxy ( hubName ) {
   this._listeners = {};
 
   this.on = function (ev, fn) {
-    this._listeners[ev] = fn;
+    (this._listeners[ev] = this._listeners[ev] || []).push(fn);
   };
 
   this.invoke = function (ev, data) {
-    var listener = this._listeners[ev];
-    if(typeof listener === 'function') {
-      listener.apply(null, Array.prototype.slice.call(arguments, 1));
+    var listeners = this._listeners[ev];
+    if(listeners) {
+      var args = arguments;
+      listeners.forEach(function(listener){
+        listener.apply(null, Array.prototype.slice.call(args, 1));
+      });
     }
   };
 }
