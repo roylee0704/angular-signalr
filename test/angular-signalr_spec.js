@@ -8,17 +8,26 @@ describe('socketFactory', function() {
       spy,
       $timeout;
 
-  beforeEach(inject(function(hubFactory, _$timeout_) {
+  beforeEach(inject(function(hubFactory, _$timeout_, $q) {
 
     mockedHub = window.jQuery.hubConnection();
     spy = jasmine.createSpy('mockedFn');
+    $timeout = _$timeout_;
+
+
+    //setup that #connect returns a promise.
+    spyOn(mockedHub, 'start').and.callFake(function() {
+      var deferred = $q.defer();
+      deferred.resolve('resolved # connect call');
+      return deferred.promise;
+    });
+
     hub = hubFactory('testHub', {
       hub: mockedHub
     });
 
     mockedHub.proxy = hub.proxy;
 
-    $timeout = _$timeout_;
   }));
 
   describe('# on', function() {
@@ -41,33 +50,24 @@ describe('socketFactory', function() {
       spyOn(mockedHub.proxy, 'invoke');
     });
 
-    xit('should not call the delegate hub\'s invoke prior #connect', function() {
+    it('should not call the delegate hub\'s invoke prior #connect', function() {
       hub.invoke('event', {foo: 'bar'});
 
       expect(mockedHub.proxy.invoke).not.toHaveBeenCalled();
+      $timeout.flush();
+      expect(mockedHub.proxy.invoke).toHaveBeenCalled();
     });
 
     it('should allow multiple data arguments', function() {
       hub.invoke('event', 'x', 'y');
 
+      $timeout.flush();
       expect(mockedHub.proxy.invoke).toHaveBeenCalledWith('event', 'x', 'y');
     });
-
 
   });
 
   describe('# connect', function() {
-
-    beforeEach(inject(function($q) {
-
-      //setup that #connect returns a promise.
-      spyOn(mockedHub, 'start').and.callFake(function() {
-        var deferred = $q.defer();
-        deferred.resolve('resolved # connect call');
-        return deferred.promise;
-      });
-
-    }));
 
     it('should call the delegate hub\'s #start', function() {
       hub.connect();
@@ -75,7 +75,7 @@ describe('socketFactory', function() {
       expect(mockedHub.start).toHaveBeenCalled();
     });
 
-    it('should call the delegate hub\'s #start with transport option', function() {
+    xit('should call the delegate hub\'s #start with transport option', function() {
       var transObj = {
         transport: 'longPolling'
       };
@@ -88,6 +88,7 @@ describe('socketFactory', function() {
       hub.connect().then(function() {
         console.log('Success');
       });
+
       $timeout.flush();
     });
 

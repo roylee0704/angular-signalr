@@ -46,7 +46,10 @@ angular.module('roy.signalr-hub', []).
           },
 
           invoke: function(ev, data) {
-            _proxy.invoke.apply(_proxy, arguments);
+            var args = arguments;
+            return promisify(function() {
+              _proxy.invoke.apply(_proxy, args);
+            });
           },
 
           stateChanged: function(callback) {
@@ -60,6 +63,13 @@ angular.module('roy.signalr-hub', []).
 
         //auto-establish connection with server
         wrappedHub.promise = wrappedHub.connect();
+
+
+        var promisify = function (fn) {
+          return wrappedHub.promise.then(function(){
+            return fn();
+          });
+        };
 
         return wrappedHub;
       };
