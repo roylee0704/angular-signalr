@@ -42,8 +42,11 @@ angular.module('roy.signalr-hub', []).
             _hub.stop();
           },
 
-          on: function(eventName, callback) {
-            _proxy.on(eventName, asyncAngularify(_proxy, callback));
+          on: function(ev, callback) {
+            _proxy.on(ev, asyncAngularify(_proxy, callback));
+          },
+
+          off: function(ev, callback) {
           },
 
           invoke: function(ev, data) {
