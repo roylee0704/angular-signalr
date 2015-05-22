@@ -32,6 +32,8 @@ function HubProxy ( hubName ) {
     (this._listeners[ev] = this._listeners[ev] || []).push(fn);
   };
 
+  this.off = function (ev, fn) {};
+
   this.invoke = function (ev, data) {
     var listeners = this._listeners[ev];
     if(listeners) {
