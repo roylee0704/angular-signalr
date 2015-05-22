@@ -14,7 +14,6 @@ describe('socketFactory', function() {
     spy = jasmine.createSpy('mockedFn');
     $timeout = _$timeout_;
 
-
     //setup that #connect returns a promise.
     spyOn(mockedHub, 'start').and.callFake(function() {
       var deferred = $q.defer();
@@ -96,7 +95,6 @@ describe('socketFactory', function() {
 
   });
 
-
   describe('# disconnect', function () {
 
     it('should call the delegate hub\'s #stop', function() {
@@ -107,7 +105,6 @@ describe('socketFactory', function() {
     });
 
   });
-
 
   describe('# error', function () {
 
@@ -133,7 +130,6 @@ describe('socketFactory', function() {
     });
 
   });
-
 
   describe('# stateChanged', function() {
 
