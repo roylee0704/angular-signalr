@@ -46,9 +46,9 @@ describe('socketFactory', function() {
   });
 
 
-  xdescribe('# off', function() {
+  describe('# off', function() {
 
-    xit('should not call after removing an event', function () {
+    it('should not call after removing an event', function () {
       hub.on('event', spy);
       hub.off('event');
 
