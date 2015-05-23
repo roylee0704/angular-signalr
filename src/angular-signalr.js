@@ -47,6 +47,7 @@ angular.module('roy.signalr-hub', []).
           },
 
           off: function(ev, callback) {
+            _proxy.off(ev, callback);
           },
 
           invoke: function(ev, data) {
