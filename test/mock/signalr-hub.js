@@ -32,7 +32,18 @@ function HubProxy ( hubName ) {
     (this._listeners[ev] = this._listeners[ev] || []).push(fn);
   };
 
-  this.off = function (ev, fn) {};
+  this.off = function (ev, fn) {
+
+    if(ev) {
+      var index = this._listeners[ev].indexOf(fn);
+      if(index > -1) {
+        this._listeners[ev].splice(index, 1);
+      } else {
+        delete this._listeners[ev];
+      }
+    }
+
+  };
 
   this.invoke = function (ev, data) {
     var listeners = this._listeners[ev];
