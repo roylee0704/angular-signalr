@@ -154,7 +154,7 @@ describe('socketFactory', function() {
       hub.stateChanged(spy);
     });
 
-    it('should not call the delegate hub\'s stateChanged prior #connect', function() {
+    it('should not call the delegate hub\'s stateChanged prior #connect ', function() {
       expect(mockedHub.stateChanged).not.toHaveBeenCalled();
 
       //assume connection has been established.
