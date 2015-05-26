@@ -7,14 +7,16 @@ describe('socketFactory', function() {
       mockedHub, /*server hub*/
       spy,
       $timeout,
-      $browser;
+      $browser,
+      scope;
 
-  beforeEach(inject(function(hubFactory, _$timeout_, $q, _$browser_) {
+  beforeEach(inject(function(hubFactory, _$timeout_, $q, _$browser_, $rootScope) {
 
     mockedHub = window.jQuery.hubConnection();
     spy = jasmine.createSpy('mockedFn');
     $timeout = _$timeout_;
     $browser = _$browser_;
+    scope = $rootScope.$new();
 
     //setup that #connect returns a promise.
     spyOn(mockedHub, 'start').and.callFake(function() {
@@ -180,6 +182,15 @@ describe('socketFactory', function() {
   });
 
   describe('# forward', function() {
+
+    it('should forward events', function() {
+      hub.forward('event');
+      scope.$on('hub:event', spy);
+
+      mockedHub.proxy.invoke('event');
+      $timeout.flush();
+      expect(spy).toHaveBeenCalled();
+    });
 
   });
 

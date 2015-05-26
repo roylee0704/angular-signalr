@@ -65,6 +65,12 @@ angular.module('roy.signalr-hub', []).
 
           error: function(callback) {
             _hub.error(asyncAngularify(_hub, callback));
+          },
+
+          forward: function(ev) {
+            this.on(ev, function(){
+              $rootScope.$broadcast('hub:event');
+            });
           }
         };
 
