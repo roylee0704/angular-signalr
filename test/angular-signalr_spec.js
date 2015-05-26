@@ -179,4 +179,8 @@ describe('socketFactory', function() {
 
   });
 
+  describe('# forward', function() {
+
+  });
+
 });
