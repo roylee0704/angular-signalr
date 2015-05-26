@@ -185,12 +185,28 @@ describe('socketFactory', function() {
 
     it('should forward events', function() {
       hub.forward('event');
+
       scope.$on('hub:event', spy);
 
       mockedHub.proxy.invoke('event');
       $timeout.flush();
       expect(spy).toHaveBeenCalled();
     });
+
+    it('should forward an array of events', function() {
+      hub.forward(['e1', 'e2']);
+
+      scope.$on('hub:e1', spy);
+      scope.$on('hub:e2', spy);
+
+      mockedHub.proxy.invoke('e1');
+      mockedHub.proxy.invoke('e2');
+      $timeout.flush();
+
+      expect(spy.calls.count()).toBe(2);
+    });
+
+
 
   });
 
