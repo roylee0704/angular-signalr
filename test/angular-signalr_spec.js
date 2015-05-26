@@ -206,7 +206,22 @@ describe('socketFactory', function() {
       expect(spy.calls.count()).toBe(2);
     });
 
+    it('should not fire registered-callback when the scope is removed', function() {
 
+      hub.forward('event');
+      scope.$on('hub:event', spy);
+      mockedHub.proxy.invoke('event');
+      $timeout.flush();
+
+      expect(spy).toHaveBeenCalled();
+
+      scope.$destroy();
+      spy.calls.reset();
+      mockedHub.proxy.invoke('event');
+      $timeout.flush();
+      expect(spy).not.toHaveBeenCalled();
+
+    });
 
   });
 
