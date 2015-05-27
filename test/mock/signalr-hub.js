@@ -34,13 +34,13 @@ function HubProxy ( hubName ) {
 
   this.off = function (ev, fn) {
 
-    if(ev) {
+    if(fn) {
       var index = this._listeners[ev].indexOf(fn);
       if(index > -1) {
         this._listeners[ev].splice(index, 1);
-      } else {
-        delete this._listeners[ev];
       }
+    } else {
+      delete this._listeners[ev];
     }
 
   };
