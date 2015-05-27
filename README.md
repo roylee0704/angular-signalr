@@ -42,46 +42,61 @@ other serivices within your application!
 
 ## API
 
-For the most part, this component works exactly like you would expect.
+For the most part, this component works exactly like you would expect. The only API
+addition is `hub.forward`, which makes it easier to add/remove listener in a way that 
+works with [AngularJS's scope](https://docs.angularjs.org/api/ng/type/$rootScope.Scope)
 
 
 ### `hub.on`
 Takes an event name and callback.
 Works just like the method of the same name from SignalR.NET.
 
-#### Example
-
-```javascript
-angular.module('myApp', [
-  'roy.signalr-hub'
-]).
-factory('myHub', function (hubFactory) {
-  return hubFactory('yourHubName');
-}).
-controller('MyCtrl', function (myHub) {
-  myHub.on('bar', function () {
-    $scope.bar = true;
-  });
-});
-```
+### `hub.off`
+Takes an event name and callback.
+Works just like the method of the same name from SignalR.NET.
 
 ### `hub.invoke`
 Sends a message to the server.
 Works just like the method of the same name from SignalR.NET.
 
+### `hub.forward`
+
+`hub.forward` allows you to forward the events received by SignalR.NET's hub to
+AngularJS's event system. You can then listen to the event with `$scope.on`. By default,
+hub-forwarded events are namespaced with `hub:`.
+
+The first argument is a string or array of strings listing the event names to be forwarded.
+The second argument is optional, and is the scope on which the event are to be broadcasted. If
+an argument is not provided, it defaults to `$rootScope`. As a reminder, broadcasted events are 
+propagated down to descendant scopes.
+
 #### Example
 
+An easy way to make hub events available across your app:
+
 ```javascript
-angular.module('myApp', [
-  'roy.signalr-hub'
-]).
-factory('myHub', function (hubFactory) {
-  return hubFactory('yourHubName');
-}).
-controller('MyCtrl', function (myHub) {
-  myHub.invoke('foo');
-});
+  //in the top level module of the app
+  angular.module('myApp', [
+    'roy.signalr-hub',
+    'myApp.MyCtrl'
+  ]).
+  factory('myHub', function(hubFactory) {
+    var myHub = hubFactory();
+    myHub.forward('interesting-event');
+    return myHub;
+  });
+  
+  angular.module('myApp.MyCtrl', []).
+    controller('MyCtrl', function() {
+      $scope.$on('hub:interesting-event', function(ev, data) {
+      
+      });
+    });
+   
 ```
+
+
+
 
 ### `hubFactory(hubName, { hub: }}`
 
@@ -96,10 +111,10 @@ This is useful if you want to connect on a different path, or need to hold a ref
 angular.module('myApp', [
   'roy.signalr-hub'
 ]).
-factory('myHub', function (socketFactory) {
+factory('myHub', function (hubFactory) {
   var mySpecialHub = $.hubConnection('/some/path', {useDefaultPath: false});
 
-  myHub = socketFactory('yourHubName', {
+  myHub = hubFactory('yourHubName', {
     hub: mySpecialHub
   });
 
@@ -116,8 +131,8 @@ Works just like the method of the same name from SignalR.NET.
 angular.module('myApp', [
   'roy.signalr-hub'
 ]).
-factory('myHub', function (socketFactory) {
-  myHub = socketFactory('yourHubName');
+factory('myHub', function (hubFactory) {
+  myHub = hubFactory('yourHubName');
 
   return myHub;
 }).
@@ -139,8 +154,8 @@ Works just like the method of the same name from SignalR.NET.
 angular.module('myApp', [
   'roy.signalr-hub'
 ]).
-factory('myHub', function (socketFactory) {
-  myHub = socketFactory('yourHubName');
+factory('myHub', function (hubFactory) {
+  myHub = hubFactory('yourHubName');
 
   return myHub;
 }).
@@ -163,5 +178,3 @@ controller('MyCtrl', function (myHub) {
   });
 });
 ```
-
-
