@@ -59,6 +59,23 @@ describe('socketFactory', function() {
       expect($browser.deferredFns.length).toBe(0);
     });
 
+
+    it('should not call after removing an event\'s watcher', function () {
+
+      var spy2 = jasmine.createSpy('mockedFn2');
+
+      hub.on('event', spy);
+      hub.on('event', spy2);
+
+      hub.off('event', spy);
+      mockedHub.proxy.invoke('event');
+      $timeout.flush();
+
+      expect(spy2).toHaveBeenCalled();
+      expect(spy).not.toHaveBeenCalled();
+
+    });
+
   });
 
   describe('# invoke', function() {

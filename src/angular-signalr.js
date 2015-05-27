@@ -5,12 +5,12 @@ angular.module('roy.signalr-hub', []).
 
     this.$get = ['$rootScope', '$timeout', '$', function($rootScope, $timeout, $) {
 
-      var asyncAngularify  = function(context, callback) {
+      var asyncAngularify  = function(context, fn) {
 
-        return (typeof callback === 'function')? function() {
+        return (typeof fn === 'function')? function() {
           var args = arguments;
           $timeout(function(){
-            callback.apply(context, args);
+            fn.apply(context, args);
           }, 0);
         }: angular.noop;
 
@@ -42,12 +42,15 @@ angular.module('roy.signalr-hub', []).
             _hub.stop();
           },
 
-          on: function(ev, callback) {
-            _proxy.on(ev, asyncAngularify(_proxy, callback));
+          on: function(ev, fn) {
+            _proxy.on(ev, fn.__ng = asyncAngularify(_proxy, fn));
           },
 
-          off: function(ev, callback) {
-            _proxy.off(ev, callback);
+          off: function(ev, fn) {
+            if(fn && fn.__ng) {
+              fn = fn.__ng;
+            }
+            _proxy.off(ev, fn);
           },
 
           invoke: function(ev, data) {
@@ -57,14 +60,14 @@ angular.module('roy.signalr-hub', []).
             });
           },
 
-          stateChanged: function(callback) {
+          stateChanged: function(fn) {
             return promisify(function() {
-              _hub.stateChanged(asyncAngularify(_hub, callback));
+              _hub.stateChanged(asyncAngularify(_hub, fn));
             });
           },
 
-          error: function(callback) {
-            _hub.error(asyncAngularify(_hub, callback));
+          error: function(fn) {
+            _hub.error(asyncAngularify(_hub, fn));
           },
 
           forward: function(events) {
@@ -84,7 +87,6 @@ angular.module('roy.signalr-hub', []).
 
         //auto-establish connection with server
         wrappedHub.promise = wrappedHub.connect();
-
 
         var promisify = function (fn) {
           return wrappedHub.promise.then(function(){
