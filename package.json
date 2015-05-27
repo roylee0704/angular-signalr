@@ -1,6 +1,6 @@
 {
   "name": "angular-signalr",
-  "version": "0.1.0", 
+  "version": "0.2.0",
   "description": "Angular wrapper for signalr in socket.io style",
   "main": "angular-signalr.js",
   "repository": {
