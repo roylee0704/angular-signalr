@@ -258,6 +258,22 @@ describe('socketFactory', function() {
 
     });
 
+    it('should forward to the specified scope when one is provided', function() {
+
+      var child = scope.$new();
+      spyOn(child, '$broadcast').and.callThrough();
+
+      hub.forward('event', child);
+      child.$on('hub:event', spy);
+
+      mockedHub.proxy.invoke('event');
+      $timeout.flush();
+
+      expect(child.$broadcast).toHaveBeenCalled();
+      expect(spy).toHaveBeenCalled();
+
+    });
+
   });
 
 });

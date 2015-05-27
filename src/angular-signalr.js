@@ -70,24 +70,26 @@ angular.module('roy.signalr-hub', []).
             _hub.error(asyncAngularify(_hub, fn));
           },
 
-          forward: function(events) {
+          forward: function(events, scope) {
 
-            if(!(events instanceof Array)) {
+            if(!scope) {
+              scope = $rootScope;
+            }
+
+            if(events instanceof Array === false) {
               events = [events];
             }
 
             events.forEach(function(ev) {
-
               var forwardBroadcast = asyncAngularify(_proxy, function() {
-                $rootScope.$broadcast('hub:'+ ev);
+                scope.$broadcast('hub:'+ ev);
               });
 
               _proxy.on(ev, forwardBroadcast);
 
-              $rootScope.$on('$destroy', function() {
+              scope.$on('$destroy', function() {
                 _proxy.off(ev, forwardBroadcast);
               });
-
             });
 
           }
