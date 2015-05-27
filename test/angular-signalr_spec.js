@@ -16,7 +16,7 @@ describe('socketFactory', function() {
     spy = jasmine.createSpy('mockedFn');
     $timeout = _$timeout_;
     $browser = _$browser_;
-    scope = $rootScope.$new();
+    scope = $rootScope;
 
     //setup that #connect returns a promise.
     spyOn(mockedHub, 'start').and.callFake(function() {
@@ -223,7 +223,7 @@ describe('socketFactory', function() {
       expect(spy.calls.count()).toBe(2);
     });
 
-    it('should not fire registered-callback when the scope is removed', function() {
+    it('should not fire the scope:watchers when the scope is removed', function() {
 
       hub.forward('event');
       scope.$on('hub:event', spy);
@@ -235,7 +235,26 @@ describe('socketFactory', function() {
       scope.$destroy();
       spy.calls.reset();
       mockedHub.proxy.invoke('event');
+
+      expect(spy).not.toHaveBeenCalled();
+
+    });
+
+    it('should cleanup scope:watchers when the scope is removed', function(){
+
+      hub.forward('event');
+      scope.$on('hub:event', spy);
+      mockedHub.proxy.invoke('event');
       $timeout.flush();
+      expect(spy).toHaveBeenCalled();
+
+      scope.$destroy();
+
+      spy.calls.reset();
+
+      //to try accessing a registered event.
+      hub.on('event', spy);
+      mockedHub.proxy.invoke('event');
       expect(spy).not.toHaveBeenCalled();
 
     });
