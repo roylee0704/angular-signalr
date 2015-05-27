@@ -249,7 +249,6 @@ describe('socketFactory', function() {
       expect(spy).toHaveBeenCalled();
 
       scope.$destroy();
-
       spy.calls.reset();
 
       //to try accessing a registered event.

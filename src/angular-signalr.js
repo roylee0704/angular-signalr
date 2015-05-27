@@ -85,7 +85,6 @@ angular.module('roy.signalr-hub', []).
               _proxy.on(ev, forwardBroadcast);
 
               $rootScope.$on('$destroy', function() {
-                console.log('scope destroyed!');
                 _proxy.off(ev, forwardBroadcast);
               });
 
