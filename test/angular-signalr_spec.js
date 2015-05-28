@@ -47,7 +47,6 @@ describe('socketFactory', function() {
 
   });
 
-
   describe('# off', function() {
 
     it('should not call after removing an event', function () {
@@ -307,6 +306,17 @@ describe('socketFactory', function() {
       expect(spy).toHaveBeenCalled();
 
     }));
+
+    it('should pass all arguments to scope.$on', function() {
+
+      hub.forward('event');
+      scope.$on('hub:event', spy);
+      mockedHub.proxy.invoke('event', 'a', 'b', 'c');
+      $timeout.flush();
+
+      expect(spy.calls.mostRecent().args.slice(1)).toEqual(['a', 'b', 'c'])
+
+    });
 
   });
 
