@@ -20,13 +20,15 @@ angular.module('roy.signalr-hub', []).
         opts = angular.extend({
           hub: $.hubConnection(),
           logging: false,
-          qs: {}
+          qs: {},
+          prefix: 'hub:'
         }, opts);
 
         var _hub = opts.hub;
         var _logging = opts.logging;
         var _qs = opts.qs;
         var _proxy = _hub.createHubProxy(hubName);
+        var _prefix = opts.prefix;
 
         var wrappedHub = {
           hub: _hub,
@@ -82,7 +84,7 @@ angular.module('roy.signalr-hub', []).
 
             events.forEach(function(ev) {
               var forwardBroadcast = asyncAngularify(_proxy, function() {
-                scope.$broadcast('hub:'+ ev);
+                scope.$broadcast(_prefix + ev);
               });
 
               _proxy.on(ev, forwardBroadcast);
