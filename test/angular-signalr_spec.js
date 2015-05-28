@@ -273,6 +273,41 @@ describe('socketFactory', function() {
 
     });
 
+
+    it('should use the specified prefix', inject(function(hubFactory) {
+
+      hub = hubFactory('testHub', {
+        hub: mockedHub,
+        prefix: 'custom:'
+      });
+      mockedHub.proxy = hub.proxy;
+
+      hub.forward('event');
+      scope.$on('custom:event', spy);
+
+      mockedHub.proxy.invoke('event');
+      $timeout.flush();
+      expect(spy).toHaveBeenCalled();
+
+    }));
+
+    it('should use the specified empty prefix', inject(function(hubFactory){
+
+      hub = hubFactory('testHub', {
+        hub: mockedHub,
+        prefix: ''
+      });
+      mockedHub.proxy = hub.proxy;
+
+      hub.forward('event');
+      scope.$on('event', spy);
+
+      mockedHub.proxy.invoke('event');
+      $timeout.flush();
+      expect(spy).toHaveBeenCalled();
+
+    }));
+
   });
 
 });
