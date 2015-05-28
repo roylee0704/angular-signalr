@@ -84,7 +84,8 @@ angular.module('roy.signalr-hub', []).
 
             events.forEach(function(ev) {
               var forwardBroadcast = asyncAngularify(_proxy, function() {
-                scope.$broadcast(_prefix + ev);
+                Array.prototype.unshift.call(arguments, _prefix + ev)
+                scope.$broadcast.apply(scope, arguments);
               });
 
               _proxy.on(ev, forwardBroadcast);
