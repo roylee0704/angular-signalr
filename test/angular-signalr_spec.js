@@ -314,7 +314,7 @@ describe('socketFactory', function() {
       mockedHub.proxy.invoke('event', 'a', 'b', 'c');
       $timeout.flush();
 
-      expect(spy.calls.mostRecent().args.slice(1)).toEqual(['a', 'b', 'c'])
+      expect(spy.calls.mostRecent().args.slice(1)).toEqual(['a', 'b', 'c']);
 
     });
 
