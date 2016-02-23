@@ -46,7 +46,6 @@ For the most part, this component works exactly like you would expect. The only 
 addition is `hub.forward`, which makes it easier to add/remove listener in a way that 
 works with [AngularJS's scope](https://docs.angularjs.org/api/ng/type/$rootScope.Scope)
 
-
 ### `hub.on`
 Takes an event name and callback.
 Works just like the method of the same name from SignalR.NET.
